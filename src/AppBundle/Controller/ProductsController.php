@@ -97,11 +97,17 @@
         }
         /**
          * @Route("/products/{id}/delete")
-         * @Method({"GET","DELETE"})
+         * @Method("DELETE")
          */
-        public function deleteAction(Request $request, $id)
+        public function deleteAction(Request $request)
         {
-          return new Response("Produit supprimer");
+
+            $this->addFlash(
+            'success',
+            'Your changes were saved!'
+          );
+
+          return $this->redirectToRoute('app_products_index');
 
         }
     }

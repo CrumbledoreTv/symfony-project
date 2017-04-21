@@ -1,3 +1,5 @@
+{% extends 'base.html.twig' %}
+{% block body %}
 <h1>Products</h1>
 <a href="products/create">Ajouter un produit</a>
 <ul>
@@ -13,3 +15,11 @@
         </form></li>
     {% endfor %}
 </ul>
+
+{% for flash_message in app.session.flashBag.get('success') %}
+    <div style="color:green">
+        {{ flash_message }}
+    </div>
+{% endfor %}
+
+{% endblock %}
