@@ -9,8 +9,7 @@
 
     class ProductsController extends Controller
     {
-
-      const PRODUCTS_TEST = [
+        const PRODUCTS_TEST = [
         ['id' => 1, 'reference' => 'AFR-1'],
         ['id' => 2, 'reference' => 'AFR-2'],
         ['id' => 3, 'reference' => 'AFR-3'],
@@ -29,7 +28,7 @@
 
         public function indexAction(Request $request)
         {
-          switch ($request->getRequestFormat()) {
+            switch ($request->getRequestFormat()) {
             case "json":
                   return $this->json(self::PRODUCTS_TEST);
             case "html":
@@ -45,42 +44,50 @@
          *         defaults={
          *                   "_format": "html"},
          *         requirements={
-         *                "_format": "html|json"
+         *                "_format": "html|json",
+         *                "id": "\d+"
          *    })
          * @Method("GET")
          */
-        public function showAction(Request $request, $id)
+        public function showAction(Request $request, int $id)
         {
-          foreach(self::PRODUCTS_TEST as $product) {
-                if ($product['id'] === (int) $id) {
-              switch ($request->getRequestFormat()) {
-                case "json":
-                  return $this->json($product);
-                case "html":
-                  return $this->render('products/show.html.twig', [
-                      'product' => $product
-                    ]);
+            foreach (self::PRODUCTS_TEST as $product) {
+                if ($product['id'] === $id) {
+                    switch ($request->getRequestFormat()) {
+                      case "json":
+                            return $this->json($product);
+                      case "html":
+                            return $this->render('products/show.html.twig', compact('product'));  //compact('product') égal à [ 'product' => $product ]
                   }
                 }
-              }
+            }
             return $this->json(['error' => 'Product '.$id.' not found']);
         }
 
         /**
-         * @Route("/products/{id}")
-         * @Method({"PUT", "PATCH"})
+         * @Route("/products/{id}/edit")
+         * @Method({"GET", "PUT", "PATCH"})
          */
-        public function editAction($id)
+        public function editAction(Request $request, int $id)
         {
-            return new Response("editer le produit numéro ".$id);
+            if($request->getRealMethod() == 'GET') {
+              return $this->render('products/edit.html.twig', compact('product'));
+            }else {
+              return new Response("J'edite le produit".$id." dans la bdd");
+            }
         }
         /**
-         * @Route("/products")
-         * @Method("POST")
+         * @Route("/products/create")
+         * @Method({"GET","POST"})
          */
-        public function createAction()
+        public function createAction(Request $request)
         {
-            return new Response("créer un nouveau produit");
+          if($request->getRealMethod() == 'GET') {
+            return $this->render('products/create.html.twig');
+          }else if($request->getRealMethod() == 'POST') {
+            return new Response("Nouveau produit créé dans la bdd");
+          }
+
         }
         /**
          * @Route("/products/{id}")
