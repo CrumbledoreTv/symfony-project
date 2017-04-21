@@ -77,9 +77,9 @@
                   return $this->render('products/edit.html.twig', compact('product'));
                 }}
             case "PUT":
-                  return new Response("J'edite le produit".$id." dans la bdd");
+                  return new Response("J'edite le produit ".$id." dans la bdd");
             case "PATCH":
-                  return new Response("J'edite le produit".$id." dans la bdd");
+                  return new Response("J'edite le produit ".$id." dans la bdd");
           }
         }
         /**
@@ -90,7 +90,7 @@
         {
           switch ($request->getMethod()) {
             case "GET":
-                  return $this->render('products/create.html.twig');
+                  return $this->render('products/create.html.twig', compact('product'));
             case "POST":
                   return new Response("Nouveau produit créé dans la bdd");
           }
@@ -101,6 +101,9 @@
          */
         public function deleteAction($id)
         {
-            return new Response("supprimer le produit numéro ".$id);
+          switch ($request->getMethod()) {
+            case "GET":
+                  return $this->render('products/delete.html.twig');
+          }
         }
     }
