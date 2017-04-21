@@ -70,11 +70,17 @@
          */
         public function editAction(Request $request, int $id)
         {
-            if($request->getRealMethod() == 'GET') {
-              return $this->render('products/edit.html.twig', compact('product'));
-            }else {
-              return new Response("J'edite le produit".$id." dans la bdd");
-            }
+          switch ($request->getMethod()) {
+            case "GET":
+            foreach (self::PRODUCTS_TEST as $product) {
+                if ($product['id'] === $id) {
+                  return $this->render('products/edit.html.twig', compact('product'));
+                }}
+            case "PUT":
+                  return new Response("J'edite le produit".$id." dans la bdd");
+            case "PATCH":
+                  return new Response("J'edite le produit".$id." dans la bdd");
+          }
         }
         /**
          * @Route("/products/create")
@@ -82,12 +88,12 @@
          */
         public function createAction(Request $request)
         {
-          if($request->getRealMethod() == 'GET') {
-            return $this->render('products/create.html.twig');
-          }else if($request->getRealMethod() == 'POST') {
-            return new Response("Nouveau produit créé dans la bdd");
+          switch ($request->getMethod()) {
+            case "GET":
+                  return $this->render('products/create.html.twig');
+            case "POST":
+                  return new Response("Nouveau produit créé dans la bdd");
           }
-
         }
         /**
          * @Route("/products/{id}")
