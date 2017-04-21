@@ -96,14 +96,12 @@
           }
         }
         /**
-         * @Route("/products/{id}")
-         * @Method("DELETE")
+         * @Route("/products/{id}/delete")
+         * @Method({"GET","DELETE"})
          */
-        public function deleteAction($id)
+        public function deleteAction(Request $request, $id)
         {
-          switch ($request->getMethod()) {
-            case "GET":
-                  return $this->render('products/delete.html.twig');
-          }
+          return new Response("Produit supprimer");
+
         }
     }
