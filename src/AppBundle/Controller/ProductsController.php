@@ -40,7 +40,7 @@
 
         /**
          * @Route(
-         *        "/products/{id}.{_format}",
+         *        "/products/{id}.{_format}", name="show",
          *         defaults={
          *                   "_format": "html"},
          *         requirements={
@@ -65,49 +65,61 @@
         }
 
         /**
-         * @Route("/products/{id}/edit")
+         * @Route("/products/{id}/edit", name="edit")
          * @Method({"GET", "PUT", "PATCH"})
          */
         public function editAction(Request $request, int $id)
         {
-          switch ($request->getMethod()) {
+            switch ($request->getMethod()) {
             case "GET":
             foreach (self::PRODUCTS_TEST as $product) {
                 if ($product['id'] === $id) {
-                  return $this->render('products/edit.html.twig', compact('product'));
-                }}
+                    return $this->render('products/edit.html.twig', compact('product'));
+                }
+            }
             case "PUT":
-                  return new Response("J'edite le produit ".$id." dans la bdd");
+                    $this->addFlash(
+                    'success',
+                    'Produit '.$id.' modifié !'
+                  );
+                  return $this->redirectToRoute('app_products_index');
             case "PATCH":
-                  return new Response("J'edite le produit ".$id." dans la bdd");
+                    $this->addFlash(
+                    'success',
+                    'Produit '.$id.' modifié !'
+                  );
+                  return $this->redirectToRoute('app_products_index');
           }
         }
         /**
-         * @Route("/products/create")
+         * @Route("/products/create", name="create")
          * @Method({"GET","POST"})
          */
         public function createAction(Request $request)
         {
-          switch ($request->getMethod()) {
+            switch ($request->getMethod()) {
             case "GET":
                   return $this->render('products/create.html.twig', compact('product'));
             case "POST":
-                  return new Response("Nouveau produit créé dans la bdd");
+
+                  $this->addFlash(
+                  'success',
+                  'Produit ajouté !'
+                  );
+                  return $this->redirectToRoute('app_products_index');
           }
         }
         /**
-         * @Route("/products/{id}/delete")
+         * @Route("/products/{id}/delete", name="delete")
          * @Method("DELETE")
          */
         public function deleteAction(Request $request)
         {
-
             $this->addFlash(
             'success',
-            'Your changes were saved!'
+            'Produit supprimer!'
           );
 
-          return $this->redirectToRoute('app_products_index');
-
+            return $this->redirectToRoute('app_products_index');
         }
     }

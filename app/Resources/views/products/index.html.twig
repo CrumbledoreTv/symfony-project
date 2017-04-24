@@ -1,15 +1,17 @@
 {% extends 'base.html.twig' %}
+
 {% block body %}
+
 <h1>Products</h1>
-<a href="products/create">Ajouter un produit</a>
+<a href="{{ path('create') }}">Ajouter un produit</a>
 <ul>
     {% for product in products %}
         <li>ID : {{ product['id'] }} - REF: {{ product['reference'] }} -
 
-        <a href="products/{{ product['id'] }}">Voir</a> -
-        <a href="products/{{ product['id'] }}/edit">Editer</a> -
+        <a href="{{ path('show', {'id': product['id']}) }}">Voir</a> -
+        <a href="{{ path('edit', {'id': product['id']}) }}">Editer</a> -
 
-        <form action="products/{{product['id']}}/delete" method="POST" onsubmit="return confirm('êtes vous sûr?')" style="display:inline">
+        <form action="{{ path('delete', {'id': product['id']}) }}" method="POST" onsubmit="return confirm('êtes vous sûr?')" style="display:inline">
         <input type="hidden" name="_method" value="DELETE">
         <input type="submit" name="submit" value="Supprimer">
         </form></li>
