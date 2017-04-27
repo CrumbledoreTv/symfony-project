@@ -2,21 +2,27 @@
 
 {% block body %}
 
-<h1>Products</h1>
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading">Products</div>
 <a href="{{ path('app_products_create') }}">Ajouter un produit</a>
-<ul>
+<table class="table">
+  <th>ID</th>
+  <th>REF</th>
+
     {% for product in products %}
-        <li>ID : {{ product['id'] }} - REF: {{ product['reference'] }} -
-
-        <a href="{{ path('app_products_show', {'id': product.id}) }}">Voir</a> -
-        <a href="{{ path('app_products_edit', {'id': product.id}) }}">Editer</a> -
-
+        <tr>
+          <td>{{ product['id'] }}</td>
+          <td>{{ product['reference'] }}</td>
+          <td><a href="{{ path('app_products_show', {'id': product.id}) }}">Voir</a></td>
+          <td><a href="{{ path('app_products_edit', {'id': product.id}) }}">Editer</a></td>
+          <td>
         <form action="{{ path('app_products_delete', {'id': product.id}) }}" method="POST" onsubmit="return confirm('Are you sure?')" style="display:inline">
         <input type="hidden" name="_method" value="DELETE">
         <input type="submit" name="submit" value="Supprimer">
-        </form></li>
+      </form></td>
     {% endfor %}
-</ul>
+</table>
 
 {% for flash_message in app.session.flashBag.get('success') %}
     <div style="color:green">

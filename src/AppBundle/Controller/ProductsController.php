@@ -88,7 +88,7 @@
               case "json":
                     return $this->json(['success' => 'Product edited']);
               case 'html':
-                  return $this->addFlash(
+                  $this->addFlash(
                   'success',
                   'Product edited !'
                   );
@@ -99,7 +99,7 @@
                 case "json":
                       return $this->json(['success' => 'Product edited']);
                 case 'html':
-                    return $this->addFlash(
+                    $this->addFlash(
                     'success',
                     'Product edited !'
                     );
@@ -127,7 +127,7 @@
                 case "json":
                       return $this->json(['success' => 'Product created']);
                 case 'html':
-                      return $this->addFlash(
+                      $this->addFlash(
                       'success',
                       'Product created !'
                       );
@@ -151,7 +151,7 @@
             case "json":
                   return $this->json(['success' => 'Product deleted']);
             case 'html':
-                  return $this->addFlash(
+                  $this->addFlash(
                   'success',
                   'Product deleted !'
                   );
