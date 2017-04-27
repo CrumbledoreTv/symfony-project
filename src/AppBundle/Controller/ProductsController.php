@@ -40,7 +40,7 @@
 
         /**
          * @Route(
-         *        "/products/{id}.{_format}", name="show",
+         *        "/products/{id}.{_format}",
          *         defaults={
          *                   "_format": "html"},
          *         requirements={
@@ -65,7 +65,7 @@
         }
 
         /**
-         * @Route("/products/{id}/edit", name="edit")
+         * @Route("/products/{id}/edit")
          * @Method({"GET", "PUT", "PATCH"})
          */
         public function editAction(Request $request, int $id)
@@ -92,7 +92,7 @@
           }
         }
         /**
-         * @Route("/products/create", name="create")
+         * @Route("/products/create")
          * @Method({"GET","POST"})
          */
         public function createAction(Request $request)
@@ -110,7 +110,7 @@
           }
         }
         /**
-         * @Route("/products/{id}/delete", name="delete")
+         * @Route("/products/{id}/delete")
          * @Method("DELETE")
          */
         public function deleteAction(Request $request)
