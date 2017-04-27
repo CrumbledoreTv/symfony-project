@@ -11,7 +11,7 @@
         <a href="{{ path('app_products_show', {'id': product.id}) }}">Voir</a> -
         <a href="{{ path('app_products_edit', {'id': product.id}) }}">Editer</a> -
 
-        <form action="{{ path('app_products_delete', {'id': product.id}) }}" method="POST" onsubmit="return confirm('êtes vous sûr?')" style="display:inline">
+        <form action="{{ path('app_products_delete', {'id': product.id}) }}" method="POST" onsubmit="return confirm('Are you sure?')" style="display:inline">
         <input type="hidden" name="_method" value="DELETE">
         <input type="submit" name="submit" value="Supprimer">
         </form></li>

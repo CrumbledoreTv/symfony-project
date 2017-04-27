@@ -65,7 +65,13 @@
         }
 
         /**
-         * @Route("/products/{id}/edit")
+         * @Route("/products/{id}/edit.{_format}",
+         *         defaults={
+         *                   "_format": "html"},
+         *         requirements={
+         *                "_format": "html|json",
+         *                "id": "\d+"
+         *    })")
          * @Method({"GET", "PUT", "PATCH"})
          */
         public function editAction(Request $request, int $id)
@@ -78,21 +84,37 @@
                 }
             }
             case "PUT":
-                    $this->addFlash(
-                    'success',
-                    'Produit '.$id.' modifié !'
-                  );
-                  return $this->redirectToRoute('app_products_index');
-            case "PATCH":
-                    $this->addFlash(
-                    'success',
-                    'Produit '.$id.' modifié !'
+            switch ($request->getRequestFormat()) {
+              case "json":
+                    return $this->json(['success' => 'Product edited']);
+              case 'html':
+                  return $this->addFlash(
+                  'success',
+                  'Product edited !'
                   );
                   return $this->redirectToRoute('app_products_index');
           }
+            case "PATCH":
+              switch ($request->getRequestFormat()) {
+                case "json":
+                      return $this->json(['success' => 'Product edited']);
+                case 'html':
+                    return $this->addFlash(
+                    'success',
+                    'Product edited !'
+                    );
+                    return $this->redirectToRoute('app_products_index');
+            }
+          }
         }
         /**
-         * @Route("/products/create")
+         * @Route("/products/create.{_format}",
+         *         defaults={
+         *                   "_format": "html"},
+         *         requirements={
+         *                "_format": "html|json",
+         *                "id": "\d+"
+         *    })")
          * @Method({"GET","POST"})
          */
         public function createAction(Request $request)
@@ -101,25 +123,39 @@
             case "GET":
                   return $this->render('products/create.html.twig', compact('product'));
             case "POST":
-
-                  $this->addFlash(
-                  'success',
-                  'Produit ajouté !'
-                  );
-                  return $this->redirectToRoute('app_products_index');
+              switch ($request->getRequestFormat()) {
+                case "json":
+                      return $this->json(['success' => 'Product created']);
+                case 'html':
+                      return $this->addFlash(
+                      'success',
+                      'Product created !'
+                      );
+                      return $this->redirectToRoute('app_products_index');
+              }
           }
         }
         /**
-         * @Route("/products/{id}/delete")
+         * @Route("/products/{id}/delete.{_format}",
+         *         defaults={
+         *                   "_format": "html"},
+         *         requirements={
+         *                "_format": "html|json",
+         *                "id": "\d+"
+         *    })")
          * @Method("DELETE")
          */
         public function deleteAction(Request $request)
         {
-            $this->addFlash(
-            'success',
-            'Produit supprimer!'
-          );
-
-            return $this->redirectToRoute('app_products_index');
+          switch ($request->getRequestFormat()) {
+            case "json":
+                  return $this->json(['success' => 'Product deleted']);
+            case 'html':
+                  return $this->addFlash(
+                  'success',
+                  'Product deleted !'
+                  );
+                  return $this->redirectToRoute('app_products_index');
+          }
         }
     }
