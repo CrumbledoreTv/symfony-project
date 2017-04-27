@@ -5,8 +5,28 @@
 <div class="panel panel-default">
   <!-- Default panel contents -->
   <div class="panel-heading">Products</div>
+
+
+  {% for message in app.session.flashBag.get('success') %}
+      <div style="panel panel-success">
+        <div class="panel-heading">
+          <div class="panel-body">
+          <p> {{ message }} </p>
+        </div>
+      </div>
+  {% endfor %}
+
+  <div class="panel panel-success" style="display:none">
+    <div class="panel-heading">Message</div>
+      <div class="panel-body">
+        <p></p>
+      </div>
+    </div>
+  </div>
+
+
 <a href="{{ path('app_products_create') }}">Ajouter un produit</a>
-<table class="table">
+<table class="table table-bordered">
   <th>ID</th>
   <th>REF</th>
 
@@ -17,17 +37,12 @@
           <td><a href="{{ path('app_products_show', {'id': product.id}) }}">Voir</a></td>
           <td><a href="{{ path('app_products_edit', {'id': product.id}) }}">Editer</a></td>
           <td>
-        <form action="{{ path('app_products_delete', {'id': product.id}) }}" method="POST" onsubmit="return confirm('Are you sure?')" style="display:inline">
+        <!-- <form action="{{ path('app_products_delete', {'id': product.id}) }}" method="POST" onsubmit="return confirm('Are you sure?')" style="display:inline">
         <input type="hidden" name="_method" value="DELETE">
         <input type="submit" name="submit" value="Supprimer">
-      </form></td>
+      </form> -->
+      <button onclick="deleteProduct({{ product.id }})">Supprimer</button></td>
     {% endfor %}
 </table>
-
-{% for flash_message in app.session.flashBag.get('success') %}
-    <div style="color:green">
-        {{ flash_message }}
-    </div>
-{% endfor %}
 
 {% endblock %}
