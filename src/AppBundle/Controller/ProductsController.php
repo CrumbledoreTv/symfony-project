@@ -194,21 +194,29 @@
          */
         public function deleteAction(Request $request, int $id)
         {
-          $em = $this->getDoctrine()->getManager();
-          $product = $em->getRepository('AppBundle:Product')->find($id);
+          $product = $this->getDoctrine()->getRepository('AppBundle:Product')->find($id);
 
-          $em->remove($product);
-          $em->flush();
-
-          $this->addFlash(
-          'success',
-          'Product deleted !'
-          );
+          if ( $product) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($product);
+            $em->flush();
+          }
             switch ($request->getRequestFormat()) {
             case "json":
+            if ($product) {
                   return $this->json(['success' => 'Product deleted']);
+                }else {
+                  return $this->json(['Product '.$id.' not found']);
+                }
             case 'html':
-                  return $this->redirectToRoute('app_products_index');
+            if ($product) {
+              $this->addFlash(
+                'success',
+                'Product deleted !'
+              );
+            }else {
+                  return $this->createNotFoundException('No product found for id: '.$id);
+                }
           }
         }
     }
