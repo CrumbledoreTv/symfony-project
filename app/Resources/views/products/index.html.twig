@@ -52,7 +52,7 @@
   <th>Actions</th>
 
     {% for product in products %}
-        <tr>
+        <tr id="product-{{ product.id }}">
           <td>{{ product.id }}</td>
           <td>{{ product.reference }}</td>
           <td>{{ product.price }}</td>

@@ -4,6 +4,7 @@ function deleteProduct(id){
     method: 'DELETE',
   }).done(function(data){
     console.log(data.success);
+    $('tr#product-'+id).remove();
     $('.panel.panel-success').show({
       duration: 3000, complete: function() {
         $(this).hide();
