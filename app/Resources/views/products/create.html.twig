@@ -4,11 +4,11 @@
 
 <h1>Products</h1>
 
-<form action="#" method="post">
+<form action="{{ path('app_products_create') }}" method="post">
   <input type="hidden" name="_method" value="POST">
   <input type="text" placeholder="Reference" name="ref">
   <br>
-  <input type="text" placeholder="Nom produit" name="name">
+  <input type="text" placeholder="Price" name="price">
   <br>
   <input type="submit" name="submit">
 </form>

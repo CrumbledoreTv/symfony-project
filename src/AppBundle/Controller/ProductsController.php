@@ -1,11 +1,12 @@
 <?php
     namespace AppBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+    use Symfony\Bundle\FrameworkBundle\Controller\Controller;
     use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
     use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+    use AppBundle\Entity\Product;
 
     class ProductsController extends Controller
     {
@@ -100,8 +101,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
                 case "json":
                     return $this->json(['success' => 'Product edited']);
                 case 'html':
-                    $product->setReference($_POST['ref']);
-                    $product->setPrice($_POST['price']);
+                $reference = $request->request->get('ref');
+                $price = $request->request->get('price');
+
+                    $product->setReference($reference);
+                    $product->setPrice($price);
                     $em->flush();
 
                     $this->addFlash(
@@ -116,8 +120,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
                 case "json":
                       return $this->json(['success' => 'Product edited']);
                 case 'html':
-                    $product->setReference($_POST['ref']);
-                    $product->setPrice($_POST['price']);
+                $reference = $request->request->get('ref');
+                $price = $request->request->get('price');
+
+                    $product->setReference($reference);
+                    $product->setPrice($price);
                     $em->flush();
 
                     $this->addFlash(
@@ -144,14 +151,33 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
             case "GET":
                   return $this->render('products/create.html.twig', compact('product'));
             case "POST":
+              $reference = $request->request->get('ref');
+              $price = $request->request->get('price');
+
+              if ($price !== "" && $reference !== "") {
+                $product = new Product();
+                $product->setPrice($price);
+                $product->setReference($reference);
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($product);
+                $em->flush();
+
+                $this->addFlash(
+                'success',
+                'Product created !'
+                );
+
+              }else if ($price === "" || $reference === "") {
+                $this->addFlash(
+                'warning',
+                'Un ou plusieurs champs ne sont pas remplit !'
+                );
+              }
+
               switch ($request->getRequestFormat()) {
                 case "json":
                       return $this->json(['success' => 'Product created']);
                 case 'html':
-                      $this->addFlash(
-                      'success',
-                      'Product created !'
-                      );
                       return $this->redirectToRoute('app_products_index');
               }
           }
@@ -166,16 +192,22 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
          *    })")
          * @Method("DELETE")
          */
-        public function deleteAction(Request $request)
+        public function deleteAction(Request $request, int $id)
         {
+          $em = $this->getDoctrine()->getManager();
+          $product = $em->getRepository('AppBundle:Product')->find($id);
+
+          $em->remove($product);
+          $em->flush();
+
+          $this->addFlash(
+          'success',
+          'Product deleted !'
+          );
             switch ($request->getRequestFormat()) {
             case "json":
                   return $this->json(['success' => 'Product deleted']);
             case 'html':
-                  $this->addFlash(
-                  'success',
-                  'Product deleted !'
-                  );
                   return $this->redirectToRoute('app_products_index');
           }
         }

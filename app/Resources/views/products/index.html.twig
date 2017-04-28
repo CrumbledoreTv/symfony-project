@@ -24,6 +24,25 @@
     </div>
   </div>
 
+  {% for message in app.session.flashBag.get('warning') %}
+      <div style="panel panel-success">
+        <div class="panel-heading">
+          <div class="panel-body">
+          <p> {{ message }} </p>
+        </div>
+      </div>
+  {% endfor %}
+
+  <div class="panel panel-warning" style="display:none">
+    <div class="panel-heading">Message</div>
+      <div class="panel-body">
+        <p></p>
+      </div>
+    </div>
+  </div>
+
+
+
 
 <a href="{{ path('app_products_create') }}">Ajouter un produit</a>
 <table class="table table-bordered">
