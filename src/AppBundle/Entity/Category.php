@@ -25,4 +25,38 @@ class Category
     */
     private $designation;
 
+    
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
     }
+
+    /**
+     * Set designation
+     *
+     * @param string $designation
+     *
+     * @return Category
+     */
+    public function setDesignation($designation)
+    {
+        $this->designation = $designation;
+
+        return $this;
+    }
+
+    /**
+     * Get designation
+     *
+     * @return string
+     */
+    public function getDesignation()
+    {
+        return $this->designation;
+    }
+}
