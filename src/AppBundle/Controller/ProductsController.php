@@ -94,13 +94,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
             switch ($request->getMethod()) {
             case "GET":
                     return $this->render('products/edit.html.twig', compact('product'));
+
             case "PUT":
               switch ($request->getRequestFormat()) {
                 case "json":
                     return $this->json(['success' => 'Product edited']);
                 case 'html':
-                    $product->setReference();
-                    $product->setPrice();
+                    $product->setReference($_POST['ref']);
+                    $product->setPrice($_POST['price']);
                     $em->flush();
 
                     $this->addFlash(
@@ -115,8 +116,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
                 case "json":
                       return $this->json(['success' => 'Product edited']);
                 case 'html':
-                    $product->setReference();
-                    $product->setPrice();
+                    $product->setReference($_POST['ref']);
+                    $product->setPrice($_POST['price']);
                     $em->flush();
 
                     $this->addFlash(
