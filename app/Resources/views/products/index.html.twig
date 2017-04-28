@@ -56,8 +56,8 @@
           <td>{{ product.id }}</td>
           <td>{{ product.reference }}</td>
           <td>{{ product.price }}</td>
-          <td><a href="{{ path('app_products_show', {'id': product.id}) }}">Voir</a>
-            <a href="{{ path('app_products_edit', {'id': product.id}) }}">Editer</a>
+          <td><a href="{{ path('app_products_show', {'id': product.id}) }}">Voir - </a>
+            <a href="{{ path('app_products_edit', {'id': product.id}) }}">Editer - </a>
 
         <!-- <form action="{{ path('app_products_delete', {'id': product.id}) }}" method="POST" onsubmit="return confirm('Are you sure?')" style="display:inline">
         <input type="hidden" name="_method" value="DELETE">

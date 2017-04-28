@@ -94,44 +94,38 @@
 
             switch ($request->getMethod()) {
             case "GET":
+                  if ( $product) {
                     return $this->render('products/edit.html.twig', compact('product'));
-
+                  } else {
+                    throw $this->createNotFoundException('No product found for id: '.$id);
+                  }
             case "PUT":
-              switch ($request->getRequestFormat()) {
-                case "json":
-                    return $this->json(['success' => 'Product edited']);
-                case 'html':
-                $reference = $request->request->get('ref');
-                $price = $request->request->get('price');
-
-                    $product->setReference($reference);
-                    $product->setPrice($price);
-                    $em->flush();
-
-                    $this->addFlash(
-                      'success',
-                      'Product edited !'
-                    );
-
-                  return $this->redirectToRoute('app_products_index');
-          }
             case "PATCH":
+            $reference = $request->request->get('ref');
+            $price = $request->request->get('price');
+
+                $product->setReference($reference);
+                $product->setPrice($price);
+                $em->flush();
+
               switch ($request->getRequestFormat()) {
                 case "json":
+                  if ($product) {
                       return $this->json(['success' => 'Product edited']);
+                    }
+                    else {
+                      return $this->json(['Product '.$id.' not found']);
+                    }
                 case 'html':
-                $reference = $request->request->get('ref');
-                $price = $request->request->get('price');
-
-                    $product->setReference($reference);
-                    $product->setPrice($price);
-                    $em->flush();
-
+                if ($product) {
                     $this->addFlash(
                     'success',
                     'Product edited !'
                     );
                     return $this->redirectToRoute('app_products_index');
+                  }else {
+                    throw $this->createNotFoundException('No product found for id: '.$id);
+                  }
             }
           }
         }
@@ -215,7 +209,7 @@
                 'Product deleted !'
               );
             }else {
-                  return $this->createNotFoundException('No product found for id: '.$id);
+                  throw $this->createNotFoundException('No product found for id: '.$id);
                 }
           }
         }
