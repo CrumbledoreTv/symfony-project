@@ -11,10 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
 class Product
 {
   /**
-   * @ORM\Column(type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
-   */
+  * @ORM\Column(type="integer")
+  * @ORM\id
+  * @ORM\GeneratedValue(strategy="AUTO")
+  */
     private $id;
 
     /**

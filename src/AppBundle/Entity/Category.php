@@ -7,13 +7,13 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Products
  *
- * @ORM\Table(name="products")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductsRepository")
+ * @ORM\Table(name="categories")
+ * @ORM\Entity
  */
 class Category
 {
     /**
-    * @ORM\Colum(type="integer")
+    * @ORM\Column(type="integer")
     * @ORM\id
     * @ORM\GeneratedValue(strategy="AUTO")
     */
@@ -21,7 +21,7 @@ class Category
 
 
     /**
-    * @ORM\Colum(type="string", length=100)
+    * @ORM\Column(type="string", length=100)
     */
     private $designation;
 
