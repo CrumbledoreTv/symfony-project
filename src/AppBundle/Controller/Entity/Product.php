@@ -11,19 +11,19 @@ use Doctrine\ORM\Mapping as ORM;
 class Product
 {
   /**
-   * @ORM\Column(type="integer")
-   * @ORM\Id
-   * @ORM\GeneratedValue(strategy="AUTO")
-   */
+  * @ORM\Colum(type="integer")
+  * @ORM\id
+  * @ORM\GeneratedValue(strategy="AUTO")
+  */
     private $id;
 
     /**
-    * @ORM\Column(type="string", length=100)
+    * @ORM\Colum(type="string", length=100)
     */
     private $reference;
 
     /**
-    * @ORM\Column(type="decimal", scale=2)
+    * @ORM\Colum(type="decimal", scale=2)
     */
     private $price;
 

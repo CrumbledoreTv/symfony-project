@@ -1,0 +1,21 @@
+{
+  "name": "simplon_project",
+  "homepage": "https://github.com/Saii62/symfony-project",
+  "authors": [
+    "Saii62 <ellart.simon@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "web/assets/vendor/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7"
+  }
+}
