@@ -29,11 +29,14 @@
 <table class="table table-bordered">
   <th>ID</th>
   <th>REF</th>
+  <th>PRICE</th>
+  <th>Actions</th>
 
     {% for product in products %}
         <tr>
-          <td>{{ product['id'] }}</td>
-          <td>{{ product['reference'] }}</td>
+          <td>{{ product.id }}</td>
+          <td>{{ product.reference }}</td>
+          <td>{{ product.price }}</td>
           <td><a href="{{ path('app_products_show', {'id': product.id}) }}">Voir</a></td>
           <td><a href="{{ path('app_products_edit', {'id': product.id}) }}">Editer</a></td>
           <td>
