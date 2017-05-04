@@ -9,6 +9,12 @@
   <input type="text" placeholder="Reference" name="ref" value="{{ product.reference }}">
   <input type="text" placeholder="price" name="price" value="{{ product.price }}">
   <br>
+  <select name="category">
+    {% for category in categories %}
+      <<option value="{{ category.id }}" {{ product.category and product.category.id == category.id ? 'selected' : '' }}>{{ category.designation }}</option>
+      {% endfor %}
+  </select>
+  <br>
   <input type="submit" name="submit">
 
 </form>

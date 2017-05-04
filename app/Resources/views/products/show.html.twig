@@ -5,7 +5,10 @@
 <h1>Products</h1>
 <ul>
 
-        <li>ID : {{ product.id }} - REF: {{ product.reference }} - PRICE: {{ product.price }} €</li>
+        <li>ID : {{ product.id }}</li>
+          <li> REF: {{ product.reference }}</li>
+          <li> Category: {{ product.category ? product.category.designation : 'aucune' }} </li>
+          <li> PRICE: {{ product.price }} €</li>
 
 </ul>
 

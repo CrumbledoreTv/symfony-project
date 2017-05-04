@@ -49,6 +49,7 @@
   <th>ID</th>
   <th>REF</th>
   <th>PRICE</th>
+  <th>Category</th>
   <th>Actions</th>
 
     {% for product in products %}
@@ -56,6 +57,8 @@
           <td>{{ product.id }}</td>
           <td>{{ product.reference }}</td>
           <td>{{ product.price }}</td>
+          <td>{{ product.category ? product.category.designation : 'aucune' }}</td>
+
           <td><a href="{{ path('app_products_show', {'id': product.id}) }}">Voir - </a>
             <a href="{{ path('app_products_edit', {'id': product.id}) }}">Editer - </a>
 

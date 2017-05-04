@@ -95,7 +95,10 @@
             switch ($request->getMethod()) {
             case "GET":
                   if ( $product) {
-                    return $this->render('products/edit.html.twig', compact('product'));
+                    $categories = $this->getDoctrine()
+                            ->getRepository('AppBundle:Category')
+                            ->findAll();
+                    return $this->render('products/edit.html.twig', compact('product', 'categories'));
                   } else {
                     throw $this->createNotFoundException('No product found for id: '.$id);
                   }
@@ -143,7 +146,10 @@
         {
             switch ($request->getMethod()) {
             case "GET":
-                  return $this->render('products/create.html.twig', compact('product'));
+            $categories = $this->getDoctrine()
+                    ->getRepository('AppBundle:Category')
+                    ->findAll();
+                  return $this->render('products/create.html.twig', compact('categories'));
             case "POST":
               $reference = $request->request->get('ref');
               $price = $request->request->get('price');
