@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity
@@ -19,17 +20,20 @@ class Product
 
     /**
     * @ORM\Column(type="string", length=100)
+    * @Assert\NotBlank()
     */
     private $reference;
 
     /**
     * @ORM\Column(type="decimal", scale=2)
+    * @Assert\NotBlank()
+    * @Assert\Type(type="float", message="The price{{ value }} is not a valid decimal.")
     */
     private $price;
 
     /**
     * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
-    * @ORM\JoinColumn(name="category_id", referencedColumnName="id")
+    * @ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="SET NULL")
     */
     private $category;
 

@@ -161,6 +161,19 @@
                 $categorie = $this->getDoctrine()->getRepository('AppBundle:Category')->find($category_id);
                 $product->setCategory($categorie);
 
+                $validator = $this->get('validator');
+                $errors = $validator->validate($product);
+
+                if (count($errors) > 0) {
+                  switch ($request->getRequestFormat()){
+                    case "json":
+                          return $this->json('Product store failed');
+                    case "html":
+                  $categories = $this->getDoctrine()->getRepository('AppBundle:Category')->findAll();
+                        return $this->render('products/create.html.twig', compact('categories', 'errors'));
+                }
+              }
+
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($product);
                 $em->flush();
