@@ -10,12 +10,6 @@
 
     class ProductsController extends Controller
     {
-        const PRODUCTS_TEST = [
-        ['id' => 1, 'reference' => 'AFR-1'],
-        ['id' => 2, 'reference' => 'AFR-2'],
-        ['id' => 3, 'reference' => 'AFR-3'],
-        ['id' => 4, 'reference' => 'AFR-4']
-      ];
 
         /**
          * @Route(
@@ -106,6 +100,10 @@
             case "PATCH":
             $reference = $request->request->get('ref');
             $price = $request->request->get('price');
+            $category_id = $request->request->get('category_id');
+
+            $categorie = $this->getDoctrine()->getRepository('AppBundle:Category')->find($category_id);
+            $product->setCategory($categorie);
 
                 $product->setReference($reference);
                 $product->setPrice($price);
@@ -153,11 +151,16 @@
             case "POST":
               $reference = $request->request->get('ref');
               $price = $request->request->get('price');
+              $category_id = $request->request->get('category_id');
 
-              if ($price !== "" && $reference !== "") {
+              if ($price !== "" && $reference !== "" && $category_id !== "") {
                 $product = new Product();
                 $product->setPrice($price);
                 $product->setReference($reference);
+
+                $categorie = $this->getDoctrine()->getRepository('AppBundle:Category')->find($category_id);
+                $product->setCategory($categorie);
+
                 $em = $this->getDoctrine()->getManager();
                 $em->persist($product);
                 $em->flush();
@@ -167,7 +170,7 @@
                 'Product created !'
                 );
 
-              }else if ($price === "" || $reference === "") {
+              }else if ($price === "" || $reference === "" || $category === "") {
                 $this->addFlash(
                 'warning',
                 'Un ou plusieurs champs ne sont pas remplit !'

@@ -10,9 +10,9 @@
   <br>
   <input type="text" placeholder="Price" name="price">
   <br>
-  <select name="category">
+  <select name="category_id">
     {% for category in categories %}
-      <<option value="{{ category.id }}">{{ category.designation }}</option>
+      <option value="{{ category.id }}">{{ category.designation }}</option>
       {% endfor %}
   </select>
   <br>
