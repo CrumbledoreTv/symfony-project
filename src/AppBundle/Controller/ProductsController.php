@@ -1,16 +1,12 @@
 <?php
     namespace AppBundle\Controller;
+    
     use Symfony\Bundle\FrameworkBundle\Controller\Controller;
     use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
     use Symfony\Component\HttpFoundation\Request;
     use Symfony\Component\HttpFoundation\Response;
     use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
     use AppBundle\Entity\Product;
-    use Symfony\Component\Form\Extension\Core\Type\TextType;
-    use Symfony\Component\Form\Extension\Core\Type\NumberType;
-    use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-    use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-
 
 
     class ProductsController extends Controller {
@@ -85,20 +81,17 @@
          */
         public function editAction(Request $request, Product $product) {
 
-          $form = $this->createCreateOrEditForm($product);
-          $form->handleRequest($request);
-
-          if ($form->isSubmitted() && $form->isValid()) {
-
-            $em = $this->getDoctrine()->getManager();
-            $em->flush();
-
-            $this->addFlash('notice', 'Le produit'.$product->getId().' a bien été édité');
-            return $this->redirectToRoute('app_products_index');
-        }
-        return $this->render('products/edit.html.twig', array(
-            'form' => $form->createView()
-        ));
+          $form = $this->createForm('AppBundle\Form\ProductType', $product);
+           $form->handleRequest($request);
+           if ($form->isSubmitted() && $form->isValid()) {
+               $em = $this->getDoctrine()->getManager();
+               $em->flush();
+               $this->addFlash('notice', 'Le produit '.$product->getId().' a bien été édité');
+               return $this->redirectToRoute('app_products_index');
+           }
+           return $this->render('products/edit.html.twig', [
+               'form' => $form->createView()
+           ]);
         }
 
 
@@ -115,21 +108,18 @@
         public function createAction(Request $request) {
 
           $product = new Product();
-          $form = $this->createCreateOrEditForm($product);
-          $form->handleRequest($request);
-
-          if ($form->isSubmitted() && $form->isValid()) {
-
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($product);
-            $em->flush();
-
-            $this->addFlash('notice', 'Le produit'.$product->getId().' a bien été créé');
-            return $this->redirectToRoute('app_products_index');
-        }
-        return $this->render('products/create.html.twig', array(
-            'form' => $form->createView()
-        ));
+            $form = $this->createForm('AppBundle\Form\ProductType', $product);
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($product);
+                $em->flush();
+                $this->addFlash('notice', 'Le produit '.$product->getId().' a bien été créé');
+                return $this->redirectToRoute('app_products_index');
+            }
+            return $this->render('products/create.html.twig', [
+                'form' => $form->createView()
+            ]);
         }
 
 
@@ -171,7 +161,7 @@
             }
         }
 
-        
+
         private function createCreateOrEditForm(Product $product = null) {
             return $this
                 ->createFormBuilder($product)

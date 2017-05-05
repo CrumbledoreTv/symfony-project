@@ -16,3 +16,5 @@ $ php bin/console generate:doctrine:crud --entity=AppBundle:Foo --format=annotat
 $ php bin/console generate:doctrine:entity
 
 $ php bin/console generate:doctrine:entities AppBundle
+
+$ php bin/console generate:doctrine:form AppBundle:Product
