@@ -2,71 +2,56 @@
 
 {% block body %}
 
-<div class="panel panel-default">
-  <!-- Default panel contents -->
-  <div class="panel-heading">Products</div>
+<h1>Products</h1>
 
-
-  {% for message in app.session.flashBag.get('success') %}
-      <div style="panel panel-success">
-        <div class="panel-heading">
-          <div class="panel-body">
-          <p> {{ message }} </p>
+{% for message in app.session.flashBag.get('notice') %}
+    <div class="panel panel-success">
+     <div class="panel-heading">Message</div>
+        <div class="panel-body">
+            <p>{{ message }}</p>
         </div>
-      </div>
-  {% endfor %}
-
-  <div class="panel panel-success" style="display:none">
-    <div class="panel-heading">Message</div>
-      <div class="panel-body">
-        <p></p>
-      </div>
     </div>
-  </div>
+{% endfor %}
 
-  {% for message in app.session.flashBag.get('warning') %}
-      <div style="panel panel-success">
-        <div class="panel-heading">
-          <div class="panel-body">
-          <p> {{ message }} </p>
+<div class="panel panel-success" style="display:none">
+     <div class="panel-heading">Message</div>
+        <div class="panel-body">
+            <p></p>
         </div>
-      </div>
-  {% endfor %}
-
-  <div class="panel panel-warning" style="display:none">
-    <div class="panel-heading">Message</div>
-      <div class="panel-body">
-        <p></p>
-      </div>
     </div>
-  </div>
-
-
-
+</div>
 
 <a href="{{ path('app_products_create') }}">Ajouter un produit</a>
 <table class="table table-bordered">
-  <th>ID</th>
-  <th>REF</th>
-  <th>PRICE</th>
-  <th>Category</th>
-  <th>Actions</th>
-
+    <tr>
+        <th>
+            ID
+        </th>
+        <th>
+            Référence
+        </th>
+        <th>
+            Catégorie
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
     {% for product in products %}
-        <tr id="product-{{ product.id }}">
-          <td>{{ product.id }}</td>
-          <td>{{ product.reference }}</td>
-          <td>{{ product.price }}</td>
-          <td>{{ product.category ? product.category.designation : 'aucune' }}</td>
-
-          <td><a href="{{ path('app_products_show', {'id': product.id}) }}">Voir - </a>
-            <a href="{{ path('app_products_edit', {'id': product.id}) }}">Editer - </a>
-
-        <!-- <form action="{{ path('app_products_delete', {'id': product.id}) }}" method="POST" onsubmit="return confirm('Are you sure?')" style="display:inline">
-        <input type="hidden" name="_method" value="DELETE">
-        <input type="submit" name="submit" value="Supprimer">
-      </form> -->
-           <button onclick="deleteProduct({{ product.id }})">Supprimer</button></td>
+        <tr id="product-{{ product.id}}">
+            <td>{{ product.id }}</td>
+            <td>{{ product.reference }}</td>
+            <td>{{ product.category ? product.category.designation : 'aucune' }}</td>
+            <td>
+                <a href="{{ path('app_products_show', {id: product.id}) }}">Voir</a>
+                <a href="{{ path('app_products_edit', {id: product.id}) }}">Editer</a>
+                <form action="{{ path('app_products_delete', {id: product.id}) }}" method="post" style="display:inline" onsubmit="return confirm('êtes-vous sûr ?')">
+                    <input type="hidden" name="_method" value="DELETE" />
+                    <input type="submit" value="Supprimer" />
+                </form>
+                <button onClick="deleteProduct({{ product.id }})">Supprimer avec ajax</button>
+            </td>
+        </tr>
     {% endfor %}
 </table>
 

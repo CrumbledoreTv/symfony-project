@@ -1,41 +1,36 @@
 <?php
-
-namespace AppBundle\Entity;
-
-use Doctrine\ORM\Mapping as ORM;
-use Doctrine\Common\Collections\ArrayCollection;
-
-/**
- * Products
- *
- * @ORM\Table(name="categories")
- * @ORM\Entity
- */
-class Category
-{
-    /**
-    * @ORM\Column(type="integer")
-    * @ORM\id
-    * @ORM\GeneratedValue(strategy="AUTO")
-    */
-    private $id;
-
+    namespace AppBundle\Entity;
+    use Doctrine\ORM\Mapping as ORM;
+    use Doctrine\Common\Collections\ArrayCollection;
+    use Symfony\Component\Validator\Constraints as Assert;
+    use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
     /**
-    * @ORM\Column(type="string", length=100)
-    */
-    private $designation;
-
-    /**
-     * @ORM\OneToMany(targetEntity="Product", mappedBy="category")
+     * @ORM\Entity
+     * @ORM\Table(name="categories")
+     * @UniqueEntity("designation")
      */
-    private $products;
+    class Category {
+        /**
+         * @ORM\Column(type="integer")
+         * @ORM\Id
+         * @ORM\GeneratedValue(strategy="AUTO")
+         */
+        private $id;
+        /**
+         * @ORM\Column(type="string", length=100, unique=true)
+         * @Assert\NotBlank(message="The designation cannot be blank.")
+         */
+        private $designation;
 
+        /**
+         * @ORM\OneToMany(targetEntity="Product", mappedBy="category")
+         */
+        private $products;
     public function __construct()
-{
-    $this->products = new ArrayCollection();
-}
-
+    {
+        $this->products = new ArrayCollection();
+    }
     /**
      * Get id
      *
@@ -45,7 +40,6 @@ class Category
     {
         return $this->id;
     }
-
     /**
      * Set designation
      *
@@ -56,10 +50,8 @@ class Category
     public function setDesignation($designation)
     {
         $this->designation = $designation;
-
         return $this;
     }
-
     /**
      * Get designation
      *
@@ -69,7 +61,6 @@ class Category
     {
         return $this->designation;
     }
-
     /**
      * Add product
      *
@@ -80,10 +71,8 @@ class Category
     public function addProduct(\AppBundle\Entity\Product $product)
     {
         $this->products[] = $product;
-
         return $this;
     }
-
     /**
      * Remove product
      *
@@ -93,7 +82,6 @@ class Category
     {
         $this->products->removeElement($product);
     }
-
     /**
      * Get products
      *

@@ -1,41 +1,37 @@
 <?php
-
-namespace AppBundle\Entity;
-
-use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-
-/**
- * @ORM\Entity
- * @ORM\Table(name="products")
- */
-class Product
-{
-  /**
-  * @ORM\Column(type="integer")
-  * @ORM\id
-  * @ORM\GeneratedValue(strategy="AUTO")
-  */
-    private $id;
+    namespace AppBundle\Entity;
+    use Doctrine\ORM\Mapping as ORM;
+    use Symfony\Component\Validator\Constraints as Assert;
+    use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
     /**
-    * @ORM\Column(type="string", length=100)
-    * @Assert\NotBlank()
-    */
-    private $reference;
-
-    /**
-    * @ORM\Column(type="decimal", scale=2)
-    * @Assert\NotBlank()
-    * @Assert\Type(type="float", message="The price{{ value }} is not a valid decimal.")
-    */
-    private $price;
-
-    /**
-    * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
-    * @ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="SET NULL")
-    */
-    private $category;
+     * @ORM\Entity
+     * @ORM\Table(name="products")
+     * @UniqueEntity("reference")
+     */
+    class Product {
+        /**
+         * @ORM\Column(type="integer")
+         * @ORM\Id
+         * @ORM\GeneratedValue(strategy="AUTO")
+         */
+        private $id;
+        /**
+         * @ORM\Column(type="string", length=100, unique=true)
+         * @Assert\NotBlank(message="The reference cannot be blank.")
+         */
+        private $reference;
+        /**
+         * @ORM\Column(type="decimal", scale=2)
+         * @Assert\NotBlank(message="The price cannot be blank.")
+         * @Assert\Type(type="digit", message="The price is not a valid digit.")
+         */
+        private $price;
+        /**
+         * @ORM\ManyToOne(targetEntity="Category", inversedBy="products")
+         * @ORM\JoinColumn(name="category_id", referencedColumnName="id", onDelete="SET NULL")
+         */
+        private $category;
 
     /**
      * Get id
@@ -46,7 +42,6 @@ class Product
     {
         return $this->id;
     }
-
     /**
      * Set reference
      *
@@ -57,10 +52,8 @@ class Product
     public function setReference($reference)
     {
         $this->reference = $reference;
-
         return $this;
     }
-
     /**
      * Get reference
      *
@@ -70,7 +63,6 @@ class Product
     {
         return $this->reference;
     }
-
     /**
      * Set price
      *
@@ -81,10 +73,8 @@ class Product
     public function setPrice($price)
     {
         $this->price = $price;
-
         return $this;
     }
-
     /**
      * Get price
      *
@@ -94,7 +84,6 @@ class Product
     {
         return $this->price;
     }
-
     /**
      * Set category
      *
@@ -105,10 +94,8 @@ class Product
     public function setCategory(\AppBundle\Entity\Category $category = null)
     {
         $this->category = $category;
-
         return $this;
     }
-
     /**
      * Get category
      *

@@ -1,23 +1,10 @@
+
 {% extends 'base.html.twig' %}
 
 {% block body %}
 
-<h1>Products</h1>
-
-<form action="{{ path('app_products_create') }}" method="post">
-  <input type="hidden" name="_method" value="POST">
-  <input type="text" placeholder="Reference" name="ref">
-  <br>
-  <input type="text" placeholder="Price" name="price">
-  <br>
-  <select name="category_id">
-    {% for category in categories %}
-      <option value="{{ category.id }}">{{ category.designation }}</option>
-      {% endfor %}
-  </select>
-  <br>
-  <br>
-  <input type="submit" name="submit">
-</form>
+{{ form_start(form) }}
+    {{ form_widget(form, {'attr': {'class': 'well'}}) }}
+{{ form_end(form) }}
 
 {% endblock %}

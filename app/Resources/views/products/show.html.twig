@@ -2,14 +2,16 @@
 
 {% block body %}
 
-<h1>Products</h1>
-<ul>
 
-        <li>ID : {{ product.id }}</li>
-          <li> REF: {{ product.reference }}</li>
-          <li> CATEGORY: {{ product.category ? product.category.designation : 'aucune' }} </li>
-          <li> PRICE: {{ product.price }} €</li>
+<h1>Product</h1>
 
-</ul>
+
+ID : {{ product.id }}
+<br />
+REF: {{ product.reference }}
+<br />
+Price : {{ product.price }} EUROS
+<br />
+Category : {{ product.category ? product.category.designation : 'aucune' }}
 
 {% endblock %}

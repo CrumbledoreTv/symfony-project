@@ -2,21 +2,8 @@
 
 {% block body %}
 
-<h1>Products</h1>
-
-<form action="#" method="post">
-  <input type="hidden" name="_method" value="PATCH">
-  <input type="text" placeholder="Reference" name="ref" value="{{ product.reference }}">
-  <input type="text" placeholder="price" name="price" value="{{ product.price }}">
-  <br>
-  <select name="category_id">
-    {% for category in categories %}
-      <<option value="{{ category.id }}" {{ product.category and product.category.id == category.id ? 'selected' : '' }}>{{ category.designation }}</option>
-    {% endfor %}
-  </select>
-  <br>
-  <input type="submit" name="submit">
-
-</form>
+{{ form_start(form) }}
+    {{ form_widget(form, {'attr': {'class': 'well'}}) }}
+{{ form_end(form) }}
 
 {% endblock %}
