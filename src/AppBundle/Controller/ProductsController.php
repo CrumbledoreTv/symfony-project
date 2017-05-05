@@ -10,7 +10,12 @@
     use Symfony\Component\Form\Extension\Core\Type\NumberType;
     use Symfony\Component\Form\Extension\Core\Type\SubmitType;
     use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+
+
+
     class ProductsController extends Controller {
+
+
         /**
          * @Route(
          *    "/products.{_format}",
@@ -32,6 +37,8 @@
                     // compact('products') = ['products' => $products]
             }
         }
+
+
         /**
          * @Route(
          *   "/products/{id}.{_format}",
@@ -64,6 +71,8 @@
                     }
             }
         }
+
+
         /**
          * @Route("/products/edit/{id}.{_format}",
          *    defaults={"_format": "html"},
@@ -72,65 +81,27 @@
          *      "id": "\d+"
          *     }
          * )
-         * @Method({"GET", "PUT", "PATCH"})
+         * @Method({"GET", "POST"})
          */
-        public function editAction(Request $request, int $id) {
-            $product = $this->getDoctrine()
-                ->getRepository('AppBundle:Product') // on récupère le Repository Product
-                ->find($id); // on récupère le Produit ayant l'ID passé dans la route
-            switch ($request->getMethod()) {
-                case "GET":
-                    if ($product) {
-                        // chercher toutes les catégories dans l'entity manager
-                        $categories = $this->getDoctrine()
-                            ->getRepository('AppBundle:Category') // on récupère le Repository Category
-                            ->findAll(); // on récupère toutes les catégories
-                        return $this->render('products/edit.html.twig', [
-                            'categories' => $categories,
-                            'form' => $this->createCreateOrEditForm($product)->createView()
-                        ]);
-                    }
-                    else {
-                        throw $this->createNotFoundException('No product found for id '.$id); // on lève une erreur 404
-                    }
-                case "PUT":
-                case "PATCH":
-                    // on récupère les données passées en POST
-                    $reference = $request->request->get('reference');
-                    $price = $request->request->get('price');
-                    $category_id = $request->request->get('category_id');
+        public function editAction(Request $request, Product $product) {
 
-                    if ($product) {
-                        $product->setReference($reference);
-                        $product->setPrice($price);
-                        if ($category_id) {
-                            // on récupère la Catégorie via Doctrine
-                            $categorie = $this->getDoctrine()->getRepository('AppBundle:Category')->find($category_id);
-                            // on utilise le setter...
-                            $product->setCategory($categorie);
-                        }
-                        $em = $this->getDoctrine()->getManager();
-                        $em->flush();
-                    }
-                    switch ($request->getRequestFormat()) {
-                        case "json":
-                            if ($product) {
-                                return $this->json('Votre produit a bien ete edite');
-                            }
-                            else {
-                                return $this->json('Product '.$id.' not found', 404); // renvoyer une erreur au format JSON
-                            }
-                        case "html":
-                            if ($product) {
-                                $this->addFlash('notice', 'Votre produit a bien été édité');
-                                return $this->redirectToRoute('app_products_index');
-                            }
-                            else {
-                                throw $this->createNotFoundException('No product found for id '.$id); // on lève une erreur 404
-                            }
-                    }
-            }
+          $form = $this->createCreateOrEditForm($product);
+          $form->handleRequest($request);
+
+          if ($form->isSubmitted() && $form->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+
+            $this->addFlash('notice', 'Le produit'.$product->getId().' a bien été édité');
+            return $this->redirectToRoute('app_products_index');
         }
+        return $this->render('products/edit.html.twig', array(
+            'form' => $form->createView()
+        ));
+        }
+
+
         /**
          * @Route("/products/create.{_format}",
          *    defaults={"_format": "html"},
@@ -157,10 +128,11 @@
             return $this->redirectToRoute('app_products_index');
         }
         return $this->render('products/create.html.twig', array(
-            'form' => $form->createView(),
+            'form' => $form->createView()
         ));
-
         }
+
+
         /**
          * @Route("/products/{id}.{_format}",
          *    defaults={"_format": "html"},
@@ -198,6 +170,8 @@
                     }
             }
         }
+
+        
         private function createCreateOrEditForm(Product $product = null) {
             return $this
                 ->createFormBuilder($product)
