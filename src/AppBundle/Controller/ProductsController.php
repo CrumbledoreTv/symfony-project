@@ -1,6 +1,6 @@
 <?php
     namespace AppBundle\Controller;
-    
+
     use Symfony\Bundle\FrameworkBundle\Controller\Controller;
     use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
     use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +14,7 @@
 
         /**
          * @Route(
-         *    "/products.{_format}",
+         *    "{_locale}/products.{_format}",
          *   defaults={"_format": "html"},
          *  requirements={
          *         "_format": "html|json"
