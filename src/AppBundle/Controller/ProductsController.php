@@ -142,53 +142,24 @@
          * @Method({"GET", "POST"})
          */
         public function createAction(Request $request) {
-            switch ($request->getMethod()) {
-                case "GET":
-                    // chercher toutes les catégories dans l'entity manager
-                    $categories = $this->getDoctrine()
-                        ->getRepository('AppBundle:Category') // on récupère le Repository Category
-                        ->findAll(); // on récupère toutes les catégories
-                    return $this->render('products/create.html.twig', [
-                        'categories' => $categories,
-                        'form' => $this->createCreateOrEditForm()->createView()
-                    ]);
-                case "POST":
-                    // on récupère les données passées en POST
-                    $reference = $request->request->get('reference');
-                    $price = $request->request->get('price');
-                    $category_id = $request->request->get('category_id');
-                    $product = new Product();
-                    $product->setReference($reference);
-                    $product->setPrice($price);
-                    if ($category_id) {
-                        // on récupère la Catégorie via Doctrine
-                        $categorie = $this->getDoctrine()->getRepository('AppBundle:Category')->find($category_id);
-                        // on utilise le setter...
-                        $product->setCategory($categorie);
-                    }
-                    $validator = $this->get('validator'); // j'appelle le container Validator
-                    $errors = $validator->validate($product); // on recherche les erreurs
 
-                    if (count($errors) > 0) {
-                        switch ($request->getRequestFormat()) {
-                            case "json":
-                                return $this->json('Product store failed: '. $errors);
-                            case "html":
-                                $categories = $this->getDoctrine()->getRepository('AppBundle:Category')->findAll();
-                                return $this->render('products/create.html.twig', compact('categories', 'errors'));
-                        }
-                    }
-                    $em = $this->getDoctrine()->getManager();
-                    $em->persist($product);
-                    $em->flush();
-                    switch ($request->getRequestFormat()) {
-                        case "json":
-                            return $this->json('Le produit '.$product->getId().' a bien été créé');
-                        case "html":
-                            $this->addFlash('notice', 'Le produit '.$product->getId().' a bien été créé');
-                            return $this->redirectToRoute('app_products_index');
-                    }
-            }
+          $product = new Product();
+          $form = $this->createCreateOrEditForm($product);
+          $form->handleRequest($request);
+
+          if ($form->isSubmitted() && $form->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($product);
+            $em->flush();
+
+            $this->addFlash('notice', 'Le produit'.$product->getId().' a bien été créé');
+            return $this->redirectToRoute('app_products_index');
+        }
+        return $this->render('products/create.html.twig', array(
+            'form' => $form->createView(),
+        ));
+
         }
         /**
          * @Route("/products/{id}.{_format}",
