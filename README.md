@@ -15,6 +15,6 @@ $ php bin/console doctrine:schema:update --force
 
 $ php bin/console generate:doctrine:crud --entity=AppBundle:Foo --format=annotation --with-write --no-interaction
 
-$ php bin/console generate:doctrine:entities AppBundle
+$ php bin/console generate:doctrine:entities AppBundle  // créer get() set()
 
 $ php bin/console generate:doctrine:form AppBundle:Product

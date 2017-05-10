@@ -3,6 +3,7 @@
     use Doctrine\ORM\Mapping as ORM;
     use Symfony\Component\Validator\Constraints as Assert;
     use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+    use Doctrine\Common\Collections\ArrayCollection;
 
     /**
      * @ORM\Entity
@@ -34,9 +35,9 @@
         private $category;
 
         /**
-         * @ORM\OneToMany(targetEntity="InvoiceLine", mappedBy="products")
+         * @ORM\OneToMany(targetEntity="InvoiceLine", mappedBy="product")
          */
-        private $invoiceLine;
+        private $invoiceLines;
 
     /**
      * Get id
@@ -109,5 +110,56 @@
     public function getCategory()
     {
         return $this->category;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->invoiceLine = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add invoiceLine
+     *
+     * @param \AppBundle\Entity\InvoiceLine $invoiceLine
+     *
+     * @return Product
+     */
+    public function addInvoiceLine(\AppBundle\Entity\InvoiceLine $invoiceLine)
+    {
+        $this->invoiceLine[] = $invoiceLine;
+
+        return $this;
+    }
+
+    /**
+     * Remove invoiceLine
+     *
+     * @param \AppBundle\Entity\InvoiceLine $invoiceLine
+     */
+    public function removeInvoiceLine(\AppBundle\Entity\InvoiceLine $invoiceLine)
+    {
+        $this->invoiceLine->removeElement($invoiceLine);
+    }
+
+    /**
+     * Get invoiceLine
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getInvoiceLine()
+    {
+        return $this->invoiceLine;
+    }
+
+    /**
+     * Get invoiceLines
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getInvoiceLines()
+    {
+        return $this->invoiceLines;
     }
 }

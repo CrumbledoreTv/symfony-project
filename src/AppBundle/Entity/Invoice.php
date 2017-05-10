@@ -100,6 +100,68 @@ public function __construct()
      */
     public function getTotal()
     {
-        return 0;
+        $total = 0;
+        foreach ($this->getInvoiceLines() as $invoiceLine) {
+          $total += $invoiceLine->getTotal();
+        }
+        return $total.'€';
+    }
+
+    /**
+     * Set client
+     *
+     * @param \AppBundle\Entity\Client $client
+     *
+     * @return Invoice
+     */
+    public function setClient(\AppBundle\Entity\Client $client = null)
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    /**
+     * Get client
+     *
+     * @return \AppBundle\Entity\Client
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+
+    /**
+     * Add invoiceLine
+     *
+     * @param \AppBundle\Entity\InvoiceLine $invoiceLine
+     *
+     * @return Invoice
+     */
+    public function addInvoiceLine(\AppBundle\Entity\InvoiceLine $invoiceLine)
+    {
+        $this->invoiceLines[] = $invoiceLine;
+
+        return $this;
+    }
+
+    /**
+     * Remove invoiceLine
+     *
+     * @param \AppBundle\Entity\InvoiceLine $invoiceLine
+     */
+    public function removeInvoiceLine(\AppBundle\Entity\InvoiceLine $invoiceLine)
+    {
+        $this->invoiceLines->removeElement($invoiceLine);
+    }
+
+    /**
+     * Get invoiceLines
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getInvoiceLines()
+    {
+        return $this->invoiceLines;
     }
 }

@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * InvoiceLine
@@ -24,8 +25,25 @@ class InvoiceLine
     /**
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
+     * @Assert\Range(
+     *    min=1,
+     *    max=99,
+     *    minMessage = "The quantity must be at least 1",
+     *    maxMessage = "The quantity cannot exceed 99")
      */
     private $quantity;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Invoice", inversedBy="invoiceLines")
+     * @ORM\JoinColumn(name="invoice_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $invoice;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Product", inversedBy="invoiceLines")
+     * @ORM\JoinColumn(name="product_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    private $product;
 
     /**
      * Get id
@@ -35,5 +53,87 @@ class InvoiceLine
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set quantity
+     *
+     * @param integer $quantity
+     *
+     * @return InvoiceLine
+     */
+    public function setQuantity($quantity)
+    {
+        $this->quantity = $quantity;
+
+        return $this;
+    }
+
+    /**
+     * Get quantity
+     *
+     * @return integer
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
+
+    /**
+     * Get total
+     *
+     * @return integer
+     */
+    public function getTotal($quantity, $price)
+    {
+        return $this->total = $quantity * $price;
+    }
+
+    /**
+     * Set invoice
+     *
+     * @param \AppBundle\Entity\Invoice $invoice
+     *
+     * @return InvoiceLine
+     */
+    public function setInvoice(\AppBundle\Entity\Invoice $invoice = null)
+    {
+        $this->invoice = $invoice;
+
+        return $this;
+    }
+
+    /**
+     * Get invoice
+     *
+     * @return \AppBundle\Entity\Invoice
+     */
+    public function getInvoice()
+    {
+        return $this->invoice;
+    }
+
+    /**
+     * Set products
+     *
+     * @param \AppBundle\Entity\Product $products
+     *
+     * @return InvoiceLine
+     */
+    public function setProducts(\AppBundle\Entity\Product $products = null)
+    {
+        $this->products = $products;
+
+        return $this;
+    }
+
+    /**
+     * Get products
+     *
+     * @return \AppBundle\Entity\Product
+     */
+    public function getProducts()
+    {
+        return $this->products;
     }
 }

@@ -5,12 +5,16 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Client
  *
  * @ORM\Table(name="client")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\ClientRepository")
+ * @UniqueEntity("designation")
+ * @UniqueEntity("email")
+ * @UniqueEntity("website")
  */
 class Client
 {
@@ -33,7 +37,7 @@ class Client
     /**
      * @ORM\Column(type="string", unique=true)
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Assert\Email
+     * @Assert\Email(message="The email '{{value}}' is not a valid email")
      * @Assert\NotBlank(message="The email cannot be blank.")
      */
     private $email;
@@ -41,7 +45,7 @@ class Client
     /**
      * @ORM\Column(type="string", unique=true)
      * @ORM\GeneratedValue(strategy="AUTO")
-     * @Assert\Url()
+     * @Assert\Url(message= "The website '{{value}}' is not a valid URL")
      * @Assert\NotBlank(message="The website cannot be blank.")
      */
     private $website;
@@ -159,5 +163,39 @@ public function __construct()
     public function getFacture()
     {
         return $this->facture;
+    }
+
+    /**
+     * Add invoice
+     *
+     * @param \AppBundle\Entity\Invoice $invoice
+     *
+     * @return Client
+     */
+    public function addInvoice(\AppBundle\Entity\Invoice $invoice)
+    {
+        $this->invoices[] = $invoice;
+
+        return $this;
+    }
+
+    /**
+     * Remove invoice
+     *
+     * @param \AppBundle\Entity\Invoice $invoice
+     */
+    public function removeInvoice(\AppBundle\Entity\Invoice $invoice)
+    {
+        $this->invoices->removeElement($invoice);
+    }
+
+    /**
+     * Get invoices
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getInvoices()
+    {
+        return $this->invoices;
     }
 }
