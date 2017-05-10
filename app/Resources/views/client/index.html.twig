@@ -2,9 +2,6 @@
 
 {% block body %}
     <h1>Clients list</h1>
-    <button type="button" class="btn btn-default">
-  {{ 'clients.choice_lang'|trans }}
-</button>
 
     <table class="table table-bordered">
         <thead>
@@ -30,9 +27,6 @@
                         </li>
                         <li>
                             <a href="{{ path('client_edit', { 'id': client.id }) }}">edit</a>
-                        </li>
-                        <li>
-                            <a href="{{ path('invoice_new', { 'id': client.id }) }}">Ajouter facture</a>
                         </li>
                     </ul>
                 </td>

@@ -13,9 +13,9 @@ class InvoiceType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('state');
+        $builder->add('state')->add('client')->add('invoiceLine');
     }
-    
+
     /**
      * {@inheritdoc}
      */
