@@ -4,7 +4,7 @@
     <h1>Invoice creation</h1>
 
     {{ form_start(form) }}
-        {{ form_widget(form) }}
+        {{ form_widget(form,  {'attr': {'class': 'well'}}) }}
         <input type="submit" value="Create" />
     {{ form_end(form) }}
 

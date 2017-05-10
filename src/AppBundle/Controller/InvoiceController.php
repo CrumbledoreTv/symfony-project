@@ -5,7 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Invoice;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Invoice controller.
@@ -14,6 +15,25 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component
  */
 class InvoiceController extends Controller
 {
+  /**
+   * Close the invoice
+   *
+   * @Route("/{id}/close", name="invoice_close")
+   * @Method("GET")
+   */
+  public function closeAction(Request $request, int $id)
+  {
+      $em = $this->getDoctrine()->getManager();
+      $invoice = $em->getRepository('AppBundle:Invoice')->find($id);
+
+      $invoice->setState(Invoice::CLOSED);
+      $em->flush();
+
+      return $this->redirectToRoute('invoice_index');
+
+  }
+
+
     /**
      * Lists all invoice entities.
      *

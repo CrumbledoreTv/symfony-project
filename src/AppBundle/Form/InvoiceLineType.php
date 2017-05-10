@@ -6,23 +6,23 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class InvoiceType extends AbstractType
+class InvoiceLineType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('client');
+        $builder->add('quantity')->add('invoice')->add('product');
     }
-
+    
     /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'AppBundle\Entity\Invoice'
+            'data_class' => 'AppBundle\Entity\InvoiceLine'
         ));
     }
 
@@ -31,7 +31,7 @@ class InvoiceType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_invoice';
+        return 'appbundle_invoiceline';
     }
 
 

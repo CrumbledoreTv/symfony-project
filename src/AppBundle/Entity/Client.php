@@ -198,4 +198,8 @@ public function __construct()
     {
         return $this->invoices;
     }
+
+    public function __toString() {
+      return $this->designation;
+    }
 }

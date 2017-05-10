@@ -1,31 +1,27 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Invoice</h1>
+    <h1>Invoiceline</h1>
 
     <table>
         <tbody>
             <tr>
                 <th>Id</th>
-                <td>{{ invoice.id }}</td>
+                <td>{{ invoiceLine.id }}</td>
             </tr>
             <tr>
-                <th>State</th>
-                <td>{{ invoice.state ? 'opened' : 'closed'}}</td>
-            </tr>
-            <tr>
-                <th>Designation</th>
-                <td>{{ invoice.designation }}</td>
+                <th>Quantity</th>
+                <td>{{ invoiceLine.quantity }}</td>
             </tr>
         </tbody>
     </table>
 
     <ul>
         <li>
-            <a href="{{ path('invoice_index') }}">Back to the list</a>
+            <a href="{{ path('invoiceline_index') }}">Back to the list</a>
         </li>
         <li>
-            <a href="{{ path('invoice_edit', { 'id': invoice.id }) }}">Edit</a>
+            <a href="{{ path('invoiceline_edit', { 'id': invoiceLine.id }) }}">Edit</a>
         </li>
         <li>
             {{ form_start(delete_form) }}
