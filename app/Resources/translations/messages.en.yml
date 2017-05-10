@@ -1,2 +1,5 @@
 products:
   index_title: Products
+
+clients:
+  choice_lang: EN

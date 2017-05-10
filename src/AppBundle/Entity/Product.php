@@ -33,6 +33,11 @@
          */
         private $category;
 
+        /**
+         * @ORM\OneToMany(targetEntity="InvoiceLine", mappedBy="products")
+         */
+        private $invoiceLine;
+
     /**
      * Get id
      *
