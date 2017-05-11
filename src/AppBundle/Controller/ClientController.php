@@ -18,11 +18,7 @@ class ClientController extends Controller
     /**
      * Lists all client entities.
      *
-     * @Route("/.{_format}",
-     *   defaults={"_format": "html"},
-     *  requirements={
-     *         "_format": "html|json"
-     *     })", name="client_index")
+     * @Route("/", name="client_index")
      * @Method("GET")
      */
     public function indexAction(Request $request) {

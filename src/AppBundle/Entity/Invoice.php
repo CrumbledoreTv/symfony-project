@@ -1,11 +1,8 @@
 <?php
-
 namespace AppBundle\Entity;
-
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Validator\Constraints as Assert;
-
 /**
  * Invoice
  *
@@ -14,43 +11,39 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Invoice
 {
-
-    const OPENED = 1;
     const CLOSED = 0;
-
+    const OPENED = 1;
     /**
      * @var int
      *
-     * @ORM\Column(type="integer")
+     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
     /**
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @var int
+     *
+     * @ORM\Column(name="state", type="smallint")
      */
-    private $state;
-
-
+    private $state = self::OPENED;
     /**
      * @ORM\ManyToOne(targetEntity="Client", inversedBy="invoices")
      * @ORM\JoinColumn(name="client_id", referencedColumnName="id", onDelete="CASCADE")
-     * @Assert\NotBlank(message="The designation cannot be blank.")
+     * @Assert\NotBlank(message="The client cannot be blank.")
      */
     private $client;
-
     /**
      * @ORM\OneToMany(targetEntity="InvoiceLine", mappedBy="invoice")
      */
     private $invoiceLines;
-public function __construct()
-{
-    $this->invoiceLines = new ArrayCollection();
-    $this->state = self::OPENED;
-}
 
+    /**
+     * Constructor
+     */
+    public function __contruct() {
+        $this->invoiceLines = new ArrayCollection();
+    }
     /**
      * Get id
      *
@@ -60,7 +53,6 @@ public function __construct()
     {
         return $this->id;
     }
-
     /**
      * Set state
      *
@@ -71,20 +63,17 @@ public function __construct()
     public function setState($state)
     {
         $this->state = $state;
-
         return $this;
     }
-
     /**
      * Get state
      *
-     * @return integer
+     * @return int
      */
     public function getState()
     {
         return $this->state;
     }
-
     /**
      * Get designation
      *
@@ -94,7 +83,6 @@ public function __construct()
     {
         return "invoice-".str_pad($this->id, 4, '0', STR_PAD_LEFT); // invoice-001
     }
-
     /**
      * Get total
      *
@@ -103,12 +91,11 @@ public function __construct()
     public function getTotal()
     {
         $total = 0;
-        foreach ($this->getInvoiceLines() as $invoiceLine) {
-          $total += $invoiceLine->getTotal();
+        foreach($this->getInvoiceLines() as $invoiceLine) {
+            $total += $invoiceLine->getTotal();
         }
-        return $total.'€';
+        return $total;
     }
-
     /**
      * Set client
      *
@@ -119,10 +106,8 @@ public function __construct()
     public function setClient(\AppBundle\Entity\Client $client = null)
     {
         $this->client = $client;
-
         return $this;
     }
-
     /**
      * Get client
      *
@@ -132,7 +117,6 @@ public function __construct()
     {
         return $this->client;
     }
-
     /**
      * Add invoiceLine
      *
@@ -143,10 +127,8 @@ public function __construct()
     public function addInvoiceLine(\AppBundle\Entity\InvoiceLine $invoiceLine)
     {
         $this->invoiceLines[] = $invoiceLine;
-
         return $this;
     }
-
     /**
      * Remove invoiceLine
      *
@@ -156,7 +138,6 @@ public function __construct()
     {
         $this->invoiceLines->removeElement($invoiceLine);
     }
-
     /**
      * Get invoiceLines
      *
@@ -166,11 +147,13 @@ public function __construct()
     {
         return $this->invoiceLines;
     }
-
     public function isOpened() {
-      return $this->state === self::OPENED;
+        return $this->state === self::OPENED;
     }
     public function isClosed() {
-      return $this->state === self::CLOSED;
+        return $this->state === self::CLOSED;
+    }
+    public function __toString() {
+        return $this->getDesignation();
     }
 }
