@@ -10,6 +10,10 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @UniqueEntity("reference")
  */
 class Product {
+
+  const PER_PAGE = 5;
+
+
     /**
     * @ORM\Column(type="integer")
     * @ORM\Id

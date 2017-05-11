@@ -1,20 +1,32 @@
 simplon_project
 ===============
 
-A Symfony project created on April 20, 2017, 10:24 am.
+A faire à chaque déploiement :
 
-$ git clone https://github.com/MaksJS/simplon_symfony.git && composer install && bower install
+$ git clone https://github.com/MaksJS/simplon_symfony.git
 
-$ php bin/console generate:doctrine:entity
+$ composer install
 
-$ php bin/console doctrine:schema:validate
+$ bower install
 
 $ php bin/console doctrine:schema:create
 
+$ php bin/console doctrine:fixtures:load
+
+$ php bin/console server:start
+
+Doctrine :
+
+$ php bin/console doctrine:schema:validate
+
 $ php bin/console doctrine:schema:update --force
 
-$ php bin/console generate:doctrine:crud --entity=AppBundle:Foo --format=annotation --with-write --no-interaction
+Génération :
 
-$ php bin/console generate:doctrine:entities AppBundle  // créer get() set()
+$ php bin/console generate:doctrine:crud --entity=AppBundle:Product --format=annotation --with-write --no-interaction
+
+$ php bin/console generate:doctrine:entity
+
+$ php bin/console generate:doctrine:entities AppBundle
 
 $ php bin/console generate:doctrine:form AppBundle:Product

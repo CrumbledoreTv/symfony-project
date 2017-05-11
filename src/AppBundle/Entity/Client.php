@@ -18,6 +18,10 @@ use Doctrine\Common\Collections\ArrayCollection;
  */
 class Client
 {
+
+  const PER_PAGE = 5;
+
+
     /**
      * @var int
      *

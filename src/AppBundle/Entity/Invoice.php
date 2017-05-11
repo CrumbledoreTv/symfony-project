@@ -13,6 +13,9 @@ class Invoice
 {
     const CLOSED = 0;
     const OPENED = 1;
+
+    const PER_PAGE = 5;
+
     /**
      * @var int
      *
