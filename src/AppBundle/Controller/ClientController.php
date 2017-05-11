@@ -17,21 +17,33 @@ class ClientController extends Controller
 {
     /**
      * Lists all client entities.
-     *
-     * @Route("/", name="client_index")
-     * @Method("GET")
-     */
+      *
+      * @Route(
+      *    ".{_format}",name="client_index",
+      *   defaults={"_format": "html"},
+      *  requirements={
+      *         "_format": "html|json"
+      *     })
+      * @Method("GET")
+      */
     public function indexAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
 
+        if ($request->getRequestFormat() === 'json') {
+          $clients = $em
+              ->createQueryBuilder()
+              ->select('c.id, c.designation, c.email, c.website')
+              ->from(Client::class, 'c')
+              ->getQuery()
+              ->getResult();
+
+              return $this->json($clients);
+
+        }
+
         $clients = $em->getRepository('AppBundle:Client')->findAll();
 
-        switch ($request->getRequestFormat()) {
-            case "json":
-                return $this->json($clients);
-            case "html":
-                return $this->render('client/index.html.twig', compact('clients'));
-    }
+        return $this->render('client/index.html.twig', compact('clients'));
   }
 
     /**
