@@ -25,6 +25,7 @@
                         <li>
                             <a href="{{ path('invoice_show', { 'id': invoice.id }) }}">show</a>
                         </li>
+
                         {% if invoice.opened %}
                         <li>
                             <a href="{{ path('invoice_edit', { 'id': invoice.id }) }}">edit</a>
@@ -34,6 +35,7 @@
                             <a href="{{ path('invoice_close', { 'id': invoice.id }) }}">close</a>
                         </li>
                         {% endif %}
+                        
                     </ul>
                 </td>
             </tr>

@@ -101,6 +101,10 @@ class InvoiceController extends Controller
      */
     public function editAction(Request $request, Invoice $invoice)
     {
+       if ($invoice->isClosed()) {
+            throw $this->createAccessDeniedException("Cette facture est fermée. Accès interdit.");
+       }
+
         $deleteForm = $this->createDeleteForm($invoice);
         $editForm = $this->createForm('AppBundle\Form\InvoiceType', $invoice);
         $editForm->handleRequest($request);

@@ -92,7 +92,7 @@ public function __construct()
      */
     public function getDesignation()
     {
-        return "invoice-".str_pad($this->id, 2, '0', STR_PAD_LEFT); // invoice-001
+        return "invoice-".str_pad($this->id, 4, '0', STR_PAD_LEFT); // invoice-001
     }
 
     /**
@@ -171,6 +171,6 @@ public function __construct()
       return $this->state === self::OPENED;
     }
     public function isClosed() {
-      return $this->state === self::OPENED;
+      return $this->state === self::CLOSED;
     }
 }

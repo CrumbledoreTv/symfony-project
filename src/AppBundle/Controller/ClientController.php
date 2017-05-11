@@ -18,19 +18,25 @@ class ClientController extends Controller
     /**
      * Lists all client entities.
      *
-     * @Route("/", name="client_index")
+     * @Route("/.{_format}",
+     *   defaults={"_format": "html"},
+     *  requirements={
+     *         "_format": "html|json"
+     *     })", name="client_index")
      * @Method("GET")
      */
-    public function indexAction()
-    {
+    public function indexAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
 
         $clients = $em->getRepository('AppBundle:Client')->findAll();
 
-        return $this->render('client/index.html.twig', array(
-            'clients' => $clients,
-        ));
+        switch ($request->getRequestFormat()) {
+            case "json":
+                return $this->json($clients);
+            case "html":
+                return $this->render('client/index.html.twig', compact('clients'));
     }
+  }
 
     /**
      * Creates a new client entity.
