@@ -11,21 +11,24 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Client controller.
  *
- * @Route("client")
+ * @Route("{_locale}/client")
+ * defaults={_locale": "en"}
  */
 class ClientController extends Controller
 {
     /**
      * Lists all client entities.
-      *
-      * @Route(
-      *    ".{_format}",name="client_index",
-      *   defaults={"_format": "html"},
-      *  requirements={
-      *         "_format": "html|json"
-      *     })
-      * @Method("GET")
-      */
+     *
+     * @Route(
+     *   ".{_format}",
+     *   name="client_index",
+     *   defaults={"_format": "html"},
+     *   requirements={
+     *     "_format": "html|json"
+     *    }
+     * )
+     * @Method("GET")
+     */
     public function indexAction(Request $request) {
         $em = $this->getDoctrine()->getManager();
 
